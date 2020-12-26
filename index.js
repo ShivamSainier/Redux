@@ -1,9 +1,14 @@
 const redux=require("redux")
 const createStrore=redux.createStore;
+const combineReducers=redux.combineReducers;
 
 const inital_state={
     apple:20,
     mango:30,
+    guava:4,
+    kivi:5}
+
+const inital_state_1={
     guava:4,
     kivi:5
 }
@@ -36,7 +41,7 @@ const kivi=()=>{
     }
 }
 
-const Reducer=(state=inital_state,action)=>{
+const Reducer_minus=(state=inital_state,action)=>{
     switch (action.type) {
         case "apple":
             return{
@@ -48,18 +53,42 @@ const Reducer=(state=inital_state,action)=>{
                 mango:state.mango-1
             }
             case "guava":
-    return{
-        ...state,
-        guava:state.guava-1
-    }
-    case "kivi":
-    return{
-        ...state,
-        kivi:state.kivi-1
-    }
+            return{...state,guava:state.guava-1}
+        
+        case "kivi":
+            return{...state,kivi:state.kivi-1}
+        
         default:return state
     }}
 
+
+const Reducer_plus=(state=inital_state,action)=>{
+    switch (action.type) {
+        case "apple":
+        return{
+        ...state,
+        apple:state.apple+1}
+        case "mango":
+             return{
+        ...state,
+        mango:state.mango+1
+    }
+        case "guava":
+            return{...state,guava:state.guava+1}
+        
+        case "kivi":
+            return{...state,kivi:state.kivi+1}
+        
+        default:return state
+    }
+    
+}
+
+const Reducer=combineReducers({
+    plus:Reducer_plus,
+    minus:Reducer_minus
+
+})
 
 const Store=createStrore(Reducer)
 console.log("initial State",Store.getState())
