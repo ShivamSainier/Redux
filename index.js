@@ -1,6 +1,7 @@
 const redux=require("redux")
 const createStrore=redux.createStore;
 const combineReducers=redux.combineReducers;
+const applyMiddleware=redux.applyMiddleware;
 
 const inital_state={
     apple:20,
@@ -90,7 +91,17 @@ const Reducer=combineReducers({
 
 })
 
-const Store=createStrore(Reducer)
+const logger=store=>{
+    return next=>{
+        return action=>{
+            const result=next(action)
+            console.log("middleWare :",result)
+            return result
+        }
+    }
+}
+
+const Store=createStrore(Reducer,applyMiddleware(logger))
 console.log("initial State",Store.getState())
 const unsubscribe=Store.subscribe(()=>{
 console.log("Updated Value",Store.getState())})
